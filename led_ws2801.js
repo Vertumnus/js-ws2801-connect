@@ -85,3 +85,5 @@ class LED_WS2801
       })
    }
 }
+
+module.exports = LED_WS2801
