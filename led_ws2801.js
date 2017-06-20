@@ -82,8 +82,8 @@ class LED_WS2801
    fill(...color)
    {
       let rgb = LED_WS2801.rgbFrom(color)
-      this.rgbLights.forEach(function(item, index){
-         item = rgb[index % 3]
+      this.rgbLights.forEach(function(item, index, arr){
+         arr[index] = rgb[index % 3]
       })
       return this
    }
