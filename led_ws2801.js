@@ -5,6 +5,8 @@
 
 /* global Symbol */
 
+var sleep = require("sleep")
+
 class LED_WS2801
 {
    constructor(count, spi)
@@ -70,6 +72,7 @@ class LED_WS2801
    show()
    {
       this.spi.write(this.rgbLights)
+      sleep.usleep(500)
       return this
    }
    
