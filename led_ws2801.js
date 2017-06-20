@@ -72,7 +72,7 @@ class LED_WS2801
    show()
    {
       this.spi.write(this.rgbLights)
-      sleep.msleep(1)
+      sleep.usleep(600)
       return this
    }
    
