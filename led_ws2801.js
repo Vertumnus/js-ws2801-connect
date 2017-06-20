@@ -70,11 +70,13 @@ class LED_WS2801
    show()
    {
       this.spi.write(this.rgbLights)
+      return this
    }
    
    clear()
    {
       this.rgbLights.fill(0)
+      return this
    }
    
    fill(...color)
@@ -83,6 +85,7 @@ class LED_WS2801
       this.rgbLights.forEach(function(item, index){
          item = rgb[index % 3]
       })
+      return this
    }
 }
 
