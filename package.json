@@ -1,8 +1,21 @@
 {
-   "name": "LED_WS2801",
+   "name": "led_ws2801",
+   "description": "Implementation for WS2801 LEDs",
    "version": "1.0.0",
-   "keywords": ["util", "functional", "server", "client", "browser"],
-   "author": "Armin",
+   "keywords": [
+      "WS2801",
+      "Raspberry",
+      "LED",
+      "SPI"
+   ],
+   "author": "Armin Junge",
+   "license": "MIT",
    "contributors": [],
-   "dependencies": {}
+   "dependencies": {},
+   "devDependencies": {
+      "grunt": "^1.0.1",
+      "grunt-contrib-concat": "^1.0.1",
+      "grunt-contrib-jshint": "^1.1.0",
+      "grunt-contrib-uglify": "^3.0.1"
+   }
 }
