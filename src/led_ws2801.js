@@ -11,14 +11,20 @@ class LED_WS2801
 {
    constructor(count, spi)
    {
-      console.assert(count > 0, "Only natural numbers are valid")
-      console.assert(spi.write, "SPI interface must have function write")
+      this.assert(spi.write, "SPI interface must have function write")
       this.count = count
       this.spi = spi
    }
 
+   assert(expression, message)
+   {
+      if(!expression)
+         throw message
+   }
+
    set count(number)
    {
+      this.assert(number > 0, "Only natural numbers are valid")
       // Each light has three colors, so we need the tripple of count
       this.rgbLights = Array(3 * number)
    }
@@ -41,13 +47,14 @@ class LED_WS2801
          case 3:
             return color
          default:
-            console.error("Wrong number of arguments")
+            this.assert(false, "Wrong number of arguments")
             return [0, 0, 0]
       }
    }
 
    setLight(number, ...color)
    {
+      this.assert(number >= 0 && number < this.count, "Given Number is out of range")
       let r, g, b
       [r, g, b] = LED_WS2801.rgbFrom(color)
       

@@ -11,12 +11,14 @@
    "author": "Armin Junge",
    "license": "MIT",
    "contributors": [],
-   "dependencies": {},
+   "dependencies": {
+   },
    "devDependencies": {
       "grunt": "^1.0.1",
       "grunt-contrib-concat": "^1.0.1",
       "grunt-contrib-jshint": "^1.1.0",
-      "grunt-contrib-uglify": "^3.0.1",
+      "grunt-contrib-nodeunit": "^1.0.0",
+      "grunt-contrib-uglify": "github:gruntjs/grunt-contrib-uglify#harmony",
       "uglify-es": "github:mishoo/UglifyJS2#harmony"
    }
 }
