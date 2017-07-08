@@ -12,6 +12,7 @@
    "license": "MIT",
    "contributors": [],
    "dependencies": {
+      "sleep": "^5.1.1"
    },
    "devDependencies": {
       "grunt": "^1.0.1",
@@ -19,6 +20,7 @@
       "grunt-contrib-jshint": "^1.1.0",
       "grunt-contrib-nodeunit": "^1.0.0",
       "grunt-contrib-uglify": "github:gruntjs/grunt-contrib-uglify#harmony",
-      "uglify-es": "github:mishoo/UglifyJS2#harmony"
+      "uglify-es": "github:mishoo/UglifyJS2#harmony",
+      "mock-require": "^2.0.2"
    }
 }
