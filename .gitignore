@@ -2,3 +2,5 @@
 /node_modules/
 /dist/
 /test/manual.js
+.gitignore
+package-lock.json
