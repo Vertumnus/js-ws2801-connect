@@ -20,7 +20,8 @@
       "grunt-contrib-jshint": "^1.1.0",
       "grunt-contrib-nodeunit": "^1.0.0",
       "grunt-contrib-uglify": "github:gruntjs/grunt-contrib-uglify#harmony",
-      "uglify-es": "github:mishoo/UglifyJS2#harmony",
-      "mock-require": "^2.0.2"
+      "grunt-jsdoc": "^2.1.0",
+      "mock-require": "^2.0.2",
+      "uglify-es": "github:mishoo/UglifyJS2#harmony"
    }
 }

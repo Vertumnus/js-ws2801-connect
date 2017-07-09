@@ -51,6 +51,14 @@ module.exports = function (grunt) {
       },
       nodeunit: {
          all: ["test/tst_*.js"]
+      },
+      jsdoc: {
+         dist: {
+            src: ['src/*.js'],
+            options: {
+               dest: 'doc'
+            }
+         }
       }
    });
    
@@ -58,7 +66,10 @@ module.exports = function (grunt) {
    grunt.loadNpmTasks('grunt-contrib-jshint')
    grunt.loadNpmTasks('grunt-contrib-concat')
    grunt.loadNpmTasks('grunt-contrib-nodeunit')
+   grunt.loadNpmTasks('grunt-jsdoc')
    
-   grunt.registerTask('test', ['jshint'])
-   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'nodeunit'])
+   grunt.registerTask('check', ['jshint'])
+   grunt.registerTask('doc', ['jsdoc'])
+   grunt.registerTask('test', ['nodeunit'])
+   grunt.registerTask('default', ['jshint', 'jsdoc', 'concat', 'uglify', 'nodeunit'])
 };
