@@ -148,7 +148,7 @@ class LED_WS2801
     * leds.setLight(2, [0x00, 0x00, 0xff]) //set third light to blue
     * @param {Number} number - Index of the led light, starting at 0. 
     * Must not exceed number of led lights.
-    * @param {mixed} color - Contains a string like "#fe12a9"
+    * @param {String|...Number|Array} color - Contains a string like "#fe12a9"
     * or an array with red, green and blue as elements like [0xfe, 0x12, 0xa9]
     * or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x12, 0xa9)
     * @returns {LED_WS2801}
@@ -206,7 +206,7 @@ class LED_WS2801
     * leds.fill("#ff0000") // set all led lights to red
     * leds.fill(0, 255, 0) // set all led lights to green
     * leds.fill([0x00, 0x00, 0xff]) // set all led lights to blue
-    * @param {mixed} color - Contains a string like "#fe12a9"
+    * @param {String|...Number|Array} color - Contains a string like "#fe12a9"
     * or an array with red, green and blue as elements like [0xfe, 0x12, 0xa9]
     * or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x12, 0xa9)
     * @returns {LED_WS2801}
