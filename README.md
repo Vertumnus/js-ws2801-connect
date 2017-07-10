@@ -3,17 +3,17 @@ This library contains a javascript class, which represents a WS2801 led stripe
 connected via SPI. Whereby the SPI implementation is open and not necessarely 
 coupled to the hardware SPI of your controler device of choise.
 
-##Precondition
+## Precondition
 The library is implemented in ECMAScript 2015, so your project should support
 at least this version.
 
-##Installation
+## Installation
 Install it via npm:
 ```
 $ npm install ws2801-connect
 ```
 
-##Usage
+## Usage
 Start with importing the module via:
 ```
 var ws2801 = require('ws2801-connect')
@@ -51,11 +51,11 @@ Send finally your color configuration to the led stripe:
 leds.show()
 ```
 
-##API
+## API
 Check out the [documentation](./doc/index.html) for details.
 
-##Examples
+## Examples
 _TODO_
 
-##License
+## License
 MIT
