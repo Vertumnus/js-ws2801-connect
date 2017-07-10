@@ -10,7 +10,15 @@
    ],
    "author": "Armin Junge",
    "license": "MIT",
+   "repository": "git://github.com/Vertumnus/js-ws2801-connect.git",
+   "bugs": {
+      "url": "https://github.com/Vertumnus/js-ws2801-connect/issues"
+   },
    "contributors": [],
+   "directories": {
+      "lib": "./lib",
+      "doc": "./doc"
+   }
    "dependencies": {
       "sleep": "^5.1.1"
    },
