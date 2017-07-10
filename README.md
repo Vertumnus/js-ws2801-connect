@@ -28,31 +28,31 @@ It must provide a function/method called __write__ with one parameter accepting
 an Array with data.
 
 Make all led lights black with:
-```
+```js
 leds.clear()
 ```
 
 Fill all led lights with a color:
-```
+```js
 leds.fill("#FF0000") //fill with red
 leds.fill(0, 255, 0) //fill with green
 leds.fill([0x00, 0x00, 0xff]) //fill with blue
 ```
 
 Set the color of a single led light by index (starting with 0):
-```
+```js
 leds.setLight(0, "#FF0000") //set first light to red
 leds.setLight(1, 0, 255, 0) //set second light to green
 leds.setLight(2, [0x00, 0x00, 0xff]) //set third light to blue
 ```
 
 Send finally your color configuration to the led stripe:
-```
+```js
 leds.show()
 ```
 
 ## API
-Check out the [documentation](./doc/index.html) for details.
+Check out the [documentation](doc) for details.
 
 ## Examples
 _TODO_
