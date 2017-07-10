@@ -9,7 +9,7 @@ at least this version.
 
 ## Installation
 Install it via npm:
-```bash
+```shell
 $ npm install ws2801-connect
 ```
 
@@ -23,9 +23,9 @@ Create an instance providing the number of led lights and a SPI implementation:
 ```js
 var leds = new ws2801(32, spi) // 32 led lights, representation of SPI
 ```
-The SPI implementation is responsible for the communication to the led stripe.
-It must provide a function/method called __write__ with one parameter accepting
-an Array with data.
+> The SPI implementation is responsible for the communication to the led stripe.
+> It must provide a function/method called __write__ with one parameter accepting
+> an Array with data.
 
 Make all led lights black with:
 ```js
