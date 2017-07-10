@@ -25,7 +25,7 @@ var leds = new ws2801(32, spi) // 32 led lights, representation of SPI
 ```
 > The SPI implementation is responsible for the communication to the led stripe.
 > It must provide a function/method called __write__ with one parameter accepting
-> an Array with data.
+> an Array with data. See [Examples](#examples) to get an idea.
 
 Make all led lights black with:
 ```js
