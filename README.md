@@ -9,18 +9,18 @@ at least this version.
 
 ## Installation
 Install it via npm:
-```
+```bash
 $ npm install ws2801-connect
 ```
 
 ## Usage
 Start with importing the module via:
-```
+```js
 var ws2801 = require('ws2801-connect')
 ```
 
 Create an instance providing the number of led lights and a SPI implementation:
-```
+```js
 var leds = new ws2801(32, spi) // 32 led lights, representation of SPI
 ```
 The SPI implementation is responsible for the communication to the led stripe.
