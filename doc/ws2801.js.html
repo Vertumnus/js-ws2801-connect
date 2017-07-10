@@ -1,4 +1,32 @@
-/* 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ws2801.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ws2801.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* 
  * The MIT License
  *
  * Copyright 2017 Armin Junge.
@@ -29,14 +57,14 @@ var sleep = require("sleep")
 /**
  * Represents your WS2801 led stripe
  */
-class LED_WS2801
+class ws2801
 {
    /**
     * Creates the representation of the led stripe.
     * @param {Number} count - number of the led lights on your stripe
     * @param {Object} spi - Defines the SPI representation to be used. 
     * It must have a function called "write" accepting the data as Array.
-    * @returns {LED_WS2801}
+    * @returns {ws2801}
     */
    constructor(count, spi)
    {
@@ -87,22 +115,22 @@ class LED_WS2801
     * or from an array as once element, which is identical to the returning one.
     * 
     * Usually this method will be called using a rest parameter. 
-    * See {@link LED_WS2801#setLight setLight()} or {@link LED_WS2801#fill fill()}
+    * See {@link ws2801#setLight setLight()} or {@link ws2801#fill fill()}
     * @example //with String
     * let r, g, b
-    * [r, g, b] = LED_WS2801.rgbFrom(["#fe12a9"])
+    * [r, g, b] = ws2801.rgbFrom(["#fe12a9"])
     * // r = 0xfe, g = 0x12, b = 0xa9
     * @example //with Elements
     * let r, g, b
-    * [r, g, b] = LED_WS2801.rgbFrom([0xfe, 0x12, 0xa9])
+    * [r, g, b] = ws2801.rgbFrom([0xfe, 0x12, 0xa9])
     * // r = 0xfe, g = 0x12, b = 0xa9
     * @example //with Array
     * let r, g, b
-    * [r, g, b] = LED_WS2801.rgbFrom([[0xfe, 0x12, 0xa9]])
+    * [r, g, b] = ws2801.rgbFrom([[0xfe, 0x12, 0xa9]])
     * // r = 0xfe, g = 0x12, b = 0xa9
     * @example //with rest parameter
     * function rgb(...color) {
-    *    return LED_WS2801.rgbFrom(color)
+    *    return ws2801.rgbFrom(color)
     * }
     * rgb("#fe12a9")
     * rgb(0xfe, 0x12, 0xa9)
@@ -127,7 +155,7 @@ class LED_WS2801
                return [r, g, b]
             }
             else
-               if(Array.isArray(color[0]) && color[0].length == 3)
+               if(Array.isArray(color[0]) &amp;&amp; color[0].length == 3)
                   return color[0]
                else
                   this.assert(false, "Wrong arguments")
@@ -151,17 +179,17 @@ class LED_WS2801
     * @param {String|...Number|Array} color - Contains a string like "#fe12a9"
     * or an array with red, green and blue as elements like [0xfe, 0x12, 0xa9]
     * or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x12, 0xa9)
-    * @returns {LED_WS2801}
+    * @returns {ws2801}
     */
    setLight(number, ...color)
    {
-      this.assert(number >= 0 && number < this.count, "Given Number is out of range")
+      this.assert(number >= 0 &amp;&amp; number &lt; this.count, "Given Number is out of range")
       let r, g, b
-      [r, g, b] = LED_WS2801.rgbFrom(color)
+      [r, g, b] = ws2801.rgbFrom(color)
       
-      this.rgbLights[3*number+0] = r & 0xff
-      this.rgbLights[3*number+1] = g & 0xff
-      this.rgbLights[3*number+2] = b & 0xff
+      this.rgbLights[3*number+0] = r &amp; 0xff
+      this.rgbLights[3*number+1] = g &amp; 0xff
+      this.rgbLights[3*number+2] = b &amp; 0xff
       
       return this
    }
@@ -173,7 +201,7 @@ class LED_WS2801
     */
    *[Symbol.iterator]()
    {
-      for(let n = 0, end = this.count; n < end; ++n)
+      for(let n = 0, end = this.count; n &lt; end; ++n)
          yield [this.rgbLights[3*n+0],this.rgbLights[3*n+1],this.rgbLights[3*n+2]]
    }
    
@@ -181,7 +209,7 @@ class LED_WS2801
     * Writes the led lights colors to the led stripe using the supplied SPI instance.
     * You have to call this method everytime you want to see the set colors
     * on your led stripe.
-    * @returns {LED_WS2801}
+    * @returns {ws2801}
     */
    show()
    {
@@ -192,7 +220,7 @@ class LED_WS2801
    
    /**
     * Sets all supported led lights to black.
-    * @returns {LED_WS2801}
+    * @returns {ws2801}
     */
    clear()
    {
@@ -209,11 +237,11 @@ class LED_WS2801
     * @param {String|...Number|Array} color - Contains a string like "#fe12a9"
     * or an array with red, green and blue as elements like [0xfe, 0x12, 0xa9]
     * or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x12, 0xa9)
-    * @returns {LED_WS2801}
+    * @returns {ws2801}
     */
    fill(...color)
    {
-      let rgb = LED_WS2801.rgbFrom(color)
+      let rgb = ws2801.rgbFrom(color)
       this.rgbLights.forEach(function(item, index, arr){
          arr[index] = rgb[index % 3]
       })
@@ -221,4 +249,27 @@ class LED_WS2801
    }
 }
 
-module.exports = LED_WS2801
+module.exports = ws2801
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ws2801.html">ws2801</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jul 10 2017 22:40:20 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

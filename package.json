@@ -1,6 +1,6 @@
 {
-   "name": "led_ws2801",
-   "description": "Implementation for WS2801 LEDs",
+   "name": "ws2801-connect",
+   "description": "A javascript class to control a WS2801 led stripe",
    "version": "1.0.0",
    "keywords": [
       "WS2801",

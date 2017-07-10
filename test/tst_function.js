@@ -25,12 +25,12 @@
 var mock = require('mock-require')
 mock('sleep', { usleep: function(){} })
 
-var LED_WS2801 = require('../bin/led_ws2801.min')
+var ws2801 = require('../lib/ws2801-connect.min')
 
 module.exports.test = {
    setUp: function(cb){
       this.spi = { write: function(){} }
-      this.leds = new LED_WS2801(this.count = 4, this.spi)
+      this.leds = new ws2801(this.count = 4, this.spi)
       cb()
    },
    testCount: function(test){
