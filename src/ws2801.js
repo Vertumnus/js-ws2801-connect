@@ -108,7 +108,7 @@ class WS2801{
       if(Array.isArray(color))
          return WS2801.rgbFrom(color)
       if(typeof color === "string"){
-         let rgb = (color[0] == '#')?color.slice(1):color
+         let rgb = (color[0] === "#")?color.slice(1):color
          let r = parseInt(rgb.substr(0,2), 16)
          let g = parseInt(rgb.substr(2,2), 16)
          let b = parseInt(rgb.substr(4,2), 16)

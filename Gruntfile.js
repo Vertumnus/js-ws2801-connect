@@ -57,7 +57,7 @@ module.exports = function (grunt) {
             src: "coverage/*.info"
          }
       }
-   });
+   })
    
    grunt.loadNpmTasks("grunt-contrib-uglify")
    grunt.loadNpmTasks("grunt-contrib-jshint")
@@ -71,4 +71,4 @@ module.exports = function (grunt) {
    grunt.registerTask("coverage", ["npm-command:coverage"])
    grunt.registerTask("publish", ["coveralls", "npm-command:publish"])
    grunt.registerTask("build", ["jshint", "npm-command:coverage", "jsdoc", "uglify"])
-};
+}
