@@ -9,20 +9,16 @@ var sleep = require("sleep")
 /**
  * Represents your WS2801 led stripe
  */
-class ws2801
-{
+class WS2801{
    /**
     * Creates the representation of the led stripe.
     * @param {Number} count - number of the led lights on your stripe
-    * @param {Object} spi - Defines the SPI representation to be used. 
-    * It must have a function called "write" accepting the data as Array.
-    * @returns {ws2801}
+    * @param {WS2801~spiWrite} spiWrite
+    * @returns {WS2801}
     */
-   constructor(count, spi)
-   {
-      this.assert(spi.write, "SPI interface must have function write")
+   constructor(count, spiWrite){
       this.count = count
-      this.spi = spi
+      this.spiWrite = (typeof spiWrite === "function")?spiWrite:function(){}
    }
 
    /**
@@ -33,8 +29,7 @@ class ws2801
     * @param {String} message - text, which will be thrown as exception
     * @returns {undefined}
     */
-   assert(expression, message)
-   {
+   static assert(expression, message){
       if(!expression)
          throw message
    }
@@ -44,9 +39,8 @@ class ws2801
     * @param {Number} number - number of led lights
     * @returns {undefined}
     */
-   set count(number)
-   {
-      this.assert(number > 0, "Only natural numbers are valid")
+   set count(number){
+      WS2801.assert(number > 0, "Only natural numbers are valid")
       // Each light has three colors, so we need the tripple of count
       this.rgbLights = Array(3 * number)
       this.clear()
@@ -55,8 +49,7 @@ class ws2801
     * Returns the number of supported led lights.
     * @returns {Number}
     */
-   get count()
-   {
+   get count(){
       return this.rgbLights.length / 3
    }
 
@@ -92,34 +85,39 @@ class ws2801
     * representing red, green and blue
     * @returns {Array} Contains red, green and blue as elements
     */
-   static rgbFrom(color)
-   {
-      let r, g, b
-      switch(color.length)
-      {
+   static rgbFrom(color){
+      switch(color.length){
          case 1:
-            if(typeof color[0] === 'string')
-            {
-               let rgb = (color[0][0] == '#')?color[0].slice(1):color[0]
-               r = parseInt(rgb.substr(0,2), 16)
-               g = parseInt(rgb.substr(2,2), 16)
-               b = parseInt(rgb.substr(4,2), 16)
-               return [r, g, b]
-            }
-            else
-               if(Array.isArray(color[0]) && color[0].length == 3)
-                  return color[0]
-               else
-                  this.assert(false, "Wrong arguments")
-            break;
+            return WS2801.rgbFromOne(color[0])
          case 3:
             return color
          default:
-            this.assert(false, "Wrong number of arguments")
+            WS2801.assert(false, "Wrong number of arguments")
       }
-      return [0, 0, 0]
    }
-
+   
+   /**
+    * Static helper method to support the case of a single parameter for
+    * rgbFrom. The parameter shall be an array with three values (red,
+    * green, blue) or a string
+    * @private
+    * @param {Array|String} color
+    * @returns {Array}
+    */
+   static rgbFromOne(color){
+      if(Array.isArray(color))
+         return WS2801.rgbFrom(color)
+      if(typeof color === "string"){
+         let rgb = (color[0] == '#')?color.slice(1):color
+         let r = parseInt(rgb.substr(0,2), 16)
+         let g = parseInt(rgb.substr(2,2), 16)
+         let b = parseInt(rgb.substr(4,2), 16)
+         return [r, g, b]
+      }
+      else
+         WS2801.assert(false, "Wrong argument")
+   }
+   
    /**
     * Sets the color of the led light specified by the given index number.
     * @example //Usage
@@ -131,13 +129,13 @@ class ws2801
     * @param {String|...Number|Array} color - Contains a string like "#fe12a9"
     * or an array with red, green and blue as elements like [0xfe, 0x12, 0xa9]
     * or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x12, 0xa9)
-    * @returns {ws2801}
+    * @returns {WS2801}
     */
    setLight(number, ...color)
    {
-      this.assert(number >= 0 && number < this.count, "Given Number is out of range")
+      WS2801.assert(number >= 0 && number < this.count, "Given Number is out of range")
       let r, g, b
-      [r, g, b] = ws2801.rgbFrom(color)
+      [r, g, b] = WS2801.rgbFrom(color)
       
       this.rgbLights[3*number+0] = r & 0xff
       this.rgbLights[3*number+1] = g & 0xff
@@ -161,18 +159,18 @@ class ws2801
     * Writes the led lights colors to the led stripe using the supplied SPI instance.
     * You have to call this method everytime you want to see the set colors
     * on your led stripe.
-    * @returns {ws2801}
+    * @returns {WS2801}
     */
    show()
    {
-      this.spi.write(this.rgbLights)
+      this.spiWrite(this.rgbLights)
       sleep.usleep(600)
       return this
    }
    
    /**
     * Sets all supported led lights to black.
-    * @returns {ws2801}
+    * @returns {WS2801}
     */
    clear()
    {
@@ -189,11 +187,11 @@ class ws2801
     * @param {String|...Number|Array} color - Contains a string like "#fe12a9"
     * or an array with red, green and blue as elements like [0xfe, 0x12, 0xa9]
     * or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x12, 0xa9)
-    * @returns {ws2801}
+    * @returns {WS2801}
     */
    fill(...color)
    {
-      let rgb = ws2801.rgbFrom(color)
+      let rgb = WS2801.rgbFrom(color)
       this.rgbLights.forEach(function(item, index, arr){
          arr[index] = rgb[index % 3]
       })
@@ -201,4 +199,11 @@ class ws2801
    }
 }
 
-module.exports = ws2801
+/**
+ * Callback for writing to the SPI
+ * @callback WS2801~spiWrite
+ * @param {Array} data - Data (color information) which has to be transfered to the led stripe 
+ */
+
+
+module.exports = WS2801

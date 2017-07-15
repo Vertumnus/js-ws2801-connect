@@ -42,6 +42,123 @@
 
 
 
+    <section>
+        <article><h1>WS2801-Connect</h1><p><a href="https://www.codacy.com/app/Vertumnus/js-ws2801-connect?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Vertumnus/js-ws2801-connect&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/ce88ce0410ee4e6cb2182ead6ebd4acf" alt="Codacy Badge"></a>
+<a href="https://coveralls.io/github/Vertumnus/js-ws2801-connect?branch=master"><img src="https://coveralls.io/repos/github/Vertumnus/js-ws2801-connect/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.npmjs.com/package/ws2801-connect"><img src="https://img.shields.io/npm/dt/ws2801-connect.svg" alt="npm"></a>
+<a href="https://www.npmjs.com/package/ws2801-connect"><img src="https://img.shields.io/npm/v/ws2801-connect.svg" alt="npm"></a>
+<a href="https://www.npmjs.com/package/ws2801-connect"><img src="https://img.shields.io/npm/l/ws2801-connect.svg" alt="npm"></a></p>
+<p>This library contains a javascript class, which represents a WS2801 led stripe
+connected via SPI. Whereby the SPI implementation is open and not necessarely 
+coupled to the hardware SPI of your controler device of choice.</p>
+<h2>Precondition</h2><p>The library is implemented in ECMAScript 2015, so your project should support
+at least this version.</p>
+<h2>Installation</h2><p>Install it via npm:</p>
+<pre class="prettyprint source lang-shell"><code>$ npm install ws2801-connect</code></pre><h2>Usage</h2><p>Start with importing the module via:</p>
+<pre class="prettyprint source lang-js"><code>var WS2801 = require(&quot;ws2801-connect&quot;)</code></pre><p>Create an instance providing the number of led lights and a callback function
+for the communication with the SPI.:</p>
+<pre class="prettyprint source lang-js"><code>// 32 led lights, callback with SPI communication
+var leds = new WS2801(32, (data) => { spi.write(data) })</code></pre><blockquote>
+<p>The callback gets an array as parameter containing the data to be sent to
+the SPI and finally to the led stripe. 
+See <a href="#examples">Examples</a> to get an idea how it works.</p>
+</blockquote>
+<p>Make all led lights black with:</p>
+<pre class="prettyprint source lang-js"><code>leds.clear()</code></pre><p>Fill all led lights with a color:</p>
+<pre class="prettyprint source lang-js"><code>leds.fill(&quot;#FF0000&quot;) //fill with red
+leds.fill(0, 255, 0) //fill with green
+leds.fill([0x00, 0x00, 0xff]) //fill with blue</code></pre><blockquote>
+<p>These are the three ways you can specify colors.</p>
+</blockquote>
+<p>Set the color of a single led light by index (starting with 0):</p>
+<pre class="prettyprint source lang-js"><code>leds.setLight(0, &quot;#FF0000&quot;) //set first light to red
+leds.setLight(1, 0, 255, 0) //set second light to green
+leds.setLight(2, [0x00, 0x00, 0xff]) //set third light to blue</code></pre><p>Send finally your color configuration to the led stripe:</p>
+<pre class="prettyprint source lang-js"><code>leds.show()</code></pre><blockquote>
+<p><strong>Consider:</strong> After you have changed your color configuration through
+<code>clear()</code>, <code>fill()</code> and/or <code>setLight()</code> (several calls) you have to call <code>show()</code>.</p>
+</blockquote>
+<h2>Examples</h2><h3>rpi-softspi <a href="https://www.npmjs.com/package/rpi-softspi"><img src="https://img.shields.io/npm/v/rpi-softspi.svg" alt="npm"></a></h3><blockquote>
+<p>Software implementation of SPI to use any pin for the interface on Raspberry Pi
+instead of using the hardware SPI of the RPi.</p>
+</blockquote>
+<p>First you have to instantiate the SPI representation and open the communication.
+In the callback for the WS2801 you have to call the <code>write()</code> method.</p>
+<pre class="prettyprint source lang-js"><code>var sleep = require(&quot;sleep&quot;)
+var SoftSPI = require(&quot;rpi-softspi&quot;)
+var WS2801 = require(&quot;ws2801-connect&quot;)
+
+/* we only need clock and mosi for the WS2801 led stripe
+ * for all other options of SoftSPI we can use the default
+ * begin SPI communication immediately
+ */
+var spi = new SoftSPI({
+   clock: 5, // GPIO 3 - SCL
+   mosi: 3 // GPIO 2 - SDA
+})
+spi.open()
+
+// the led stripe has 32 lights; supply callback as lambda
+var leds = new WS2801(32, (data) => { spi.write(data) })
+
+// first make all lights black
+leds.clear().show()
+sleep(1) // wait a second
+// next fill red
+leds.fill(&quot;#FF0000&quot;).show()
+sleep(1)
+// fill green
+leds.fill(0, 255, 0).show()
+sleep(1)
+// fill blue
+leds.fill([0x00, 0x00, 0xff]).show()
+sleep(1)
+// and black again
+leds.clear().show()
+
+// end SPI communication
+spi.close()</code></pre><h3>rpio <a href="http://badge.fury.io/js/rpio"><img src="https://badge.fury.io/js/rpio.svg" alt="NPM version"></a></h3><blockquote>
+<p>High performance node.js addon which provides access to the Raspberry Pi GPIO interface
+including SPI</p>
+</blockquote>
+<p>First you have to initiate the SPI communication with rpio.
+In the callback for the WS2801 you have to call the <code>spiWrite()</code> method.</p>
+<pre class="prettyprint source lang-js"><code>var sleep = require(&quot;sleep&quot;)
+var rpio = require(&quot;rpio&quot;)
+var WS2801 = require(&quot;ws2801-connect&quot;)
+
+// initiate SPI and begin communication
+rpio.spiBegin()
+// max. 25 MHz
+rpio.spiSetClockDivider(10)
+rpio.spiSetDataMode(0)
+
+// the led stripe has 32 lights; supply callback as lambda
+var leds = new WS2801(32, (data) => { 
+                              let buf = Buffer.from(data)
+                              rpio.spiWrite(buf, buf.length)
+                           })
+
+// first make all lights black
+leds.clear().show()
+sleep(1) // second
+// next fill red
+leds.fill(&quot;#FF0000&quot;).show()
+sleep(1)
+// fill green
+leds.fill(0, 255, 0).show()
+sleep(1)
+// fill blue
+leds.fill([0x00, 0x00, 0xff]).show()
+sleep(1)
+// and black again
+leds.clear().show()
+
+// release SPI
+rpio.spiEnd()</code></pre><h2>API</h2><p>Check out the <a href="doc">documentation</a> for details.</p>
+<h2>License</h2><p>MIT</p></article>
+    </section>
+
 
 
 
@@ -50,13 +167,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ws2801.html">ws2801</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WS2801.html">WS2801</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jul 10 2017 22:40:20 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jul 15 2017 14:17:31 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

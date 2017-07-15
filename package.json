@@ -3,10 +3,14 @@
    "description": "A javascript class to control a WS2801 led stripe",
    "version": "1.0.0",
    "keywords": [
-      "WS2801",
-      "Raspberry",
-      "LED",
-      "SPI"
+      "ws2801",
+      "raspberry",
+      "raspberry pi",
+      "pi",
+      "led",
+      "stripe",
+      "led stripe",
+      "spi"
    ],
    "author": "Armin Junge",
    "license": "MIT",
@@ -24,12 +28,16 @@
    },
    "devDependencies": {
       "grunt": "^1.0.1",
-      "grunt-contrib-concat": "^1.0.1",
       "grunt-contrib-jshint": "^1.1.0",
-      "grunt-contrib-nodeunit": "^1.0.0",
       "grunt-contrib-uglify": "github:gruntjs/grunt-contrib-uglify#harmony",
+      "grunt-coveralls": "^1.0.1",
       "grunt-jsdoc": "^2.1.0",
+      "grunt-npm-command": "^0.1.2",
       "mock-require": "^2.0.2",
-      "uglify-es": "github:mishoo/UglifyJS2#harmony"
+      "uglify-es": "github:mishoo\/UglifyJS2#harmony"
+   },
+   "scripts": {
+      "test": "mocha",
+      "coverage": "nyc --reporter=lcov mocha"
    }
 }
