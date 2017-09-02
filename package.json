@@ -1,7 +1,7 @@
 {
    "name": "ws2801-connect",
    "description": "A javascript class to control a WS2801 led stripe",
-   "version": "1.0.1",
+   "version": "1.1.0",
    "keywords": [
       "ws2801",
       "raspberry",
@@ -21,9 +21,12 @@
    "contributors": [],
    "directories": {
       "lib": "./lib",
-      "doc": "./doc"
+      "doc": "./doc",
+      "src": "./src",
+      "test": "./test"
    },
    "dependencies": {
+      "color": "^2.0.0",
       "sleep": "^5.1.1"
    },
    "devDependencies": {
@@ -34,7 +37,7 @@
       "grunt-jsdoc": "^2.1.0",
       "grunt-npm-command": "^0.1.2",
       "mock-require": "^2.0.2",
-      "uglify-es": "github:mishoo\/UglifyJS2#harmony"
+      "uglify-es": "github:mishoo/UglifyJS2#harmony"
    },
    "scripts": {
       "test": "mocha",

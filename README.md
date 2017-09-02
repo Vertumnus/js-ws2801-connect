@@ -36,19 +36,21 @@ var leds = new WS2801(32, (data) => { spi.write(data) })
 > the SPI and finally to the led stripe. 
 > See [Examples](#examples) to get an idea how it works.
 
+### Clear
 Make all led lights black with:
 ```js
 leds.clear()
 ```
 
-Fill all led lights with a color:
+### Fill
+Fill all led lights with one color:
 ```js
 leds.fill("#FF0000") //fill with red
 leds.fill(0, 255, 0) //fill with green
 leds.fill([0x00, 0x00, 0xff]) //fill with blue
 ```
-> These are the three ways you can specify colors.
 
+### Set single light
 Set the color of a single led light by index (starting with 0):
 ```js
 leds.setLight(0, "#FF0000") //set first light to red
@@ -56,12 +58,32 @@ leds.setLight(1, 0, 255, 0) //set second light to green
 leds.setLight(2, [0x00, 0x00, 0xff]) //set third light to blue
 ```
 
+### Set all lights
+Set possibly all led lights by provided an array with color information:
+```js
+// set first three lights with red, green and blue
+leds.setAll([
+   [ 255, 0, 0 ],
+   "#00ff00",
+   "rgb(0, 0, 255)"
+])
+```
+> Consider
+> * If you supply less colors as led lights you have, the rest lights will be cleared
+> * If you supply more colors as led lights you have, the superfluous are ignored
+
+### Show lights on hardware
 Send finally your color configuration to the led stripe:
 ```js
 leds.show()
 ```
 > __Consider:__ After you have changed your color configuration through
-> `clear()`, `fill()` and/or `setLight()` (several calls) you have to call `show()`.
+> any of the above modifying methods, you have to call `show()` to send 
+> the new configuration to the led stripe.
+
+### Hint
+On specifying colors you can use any format, which the [color library](https://www.npmjs.com/package/color) 
+supports with its [constructors](https://www.npmjs.com/package/color#constructors).
 
 ## Examples
 

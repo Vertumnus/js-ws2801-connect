@@ -5,6 +5,7 @@
 /* global Symbol */
 
 var sleep = require("sleep")
+var colorLib = require("color")
 
 /**
  * Represents your WS2801 led stripe
@@ -88,34 +89,16 @@ class WS2801{
    static rgbFrom(color){
       switch(color.length){
          case 1:
-            return WS2801.rgbFromOne(color[0])
+            if(color[0] instanceof Array)
+               return WS2801.rgbFrom(color[0])
+            else
+               return colorLib(color[0]).array()
+            break
          case 3:
             return color
          default:
             WS2801.assert(false, "Wrong number of arguments")
       }
-   }
-   
-   /**
-    * Static helper method to support the case of a single parameter for
-    * rgbFrom. The parameter shall be an array with three values (red,
-    * green, blue) or a string
-    * @private
-    * @param {Array|String} color
-    * @returns {Array}
-    */
-   static rgbFromOne(color){
-      if(Array.isArray(color))
-         return WS2801.rgbFrom(color)
-      if(typeof color === "string"){
-         let rgb = (color[0] === "#")?color.slice(1):color
-         let r = parseInt(rgb.substr(0,2), 16)
-         let g = parseInt(rgb.substr(2,2), 16)
-         let b = parseInt(rgb.substr(4,2), 16)
-         return [r, g, b]
-      }
-      else
-         WS2801.assert(false, "Wrong argument")
    }
    
    /**
@@ -140,6 +123,24 @@ class WS2801{
       this.rgbLights[3*number+0] = r & 0xff
       this.rgbLights[3*number+1] = g & 0xff
       this.rgbLights[3*number+2] = b & 0xff
+      
+      return this
+   }
+
+   /**
+    * Set possibly all lights with given colors.
+    * If the number of given colors is to low, the rest goes black.
+    * Superfluous are ignored.
+    * @param {Array.<String|Array>} colors
+    * @returns {WS2801}
+    */
+   setAll(colors){
+      WS2801.assert(colors instanceof Array, "Parameter must be an array")
+      this.clear()
+      colors.forEach(function(item, index){
+         if(index < this.count)
+            this.setLight(index, item)
+      }, this)
       
       return this
    }

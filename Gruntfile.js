@@ -69,6 +69,6 @@ module.exports = function (grunt) {
    grunt.registerTask("doc", ["jsdoc"])
    grunt.registerTask("test", ["npm-command:test"])
    grunt.registerTask("coverage", ["npm-command:coverage"])
-   grunt.registerTask("publish", ["coveralls", "npm-command:publish"])
    grunt.registerTask("build", ["jshint", "npm-command:coverage", "jsdoc", "uglify"])
+   grunt.registerTask("publish", ["build", "coveralls", "npm-command:publish"])
 }
