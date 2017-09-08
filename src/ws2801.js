@@ -89,11 +89,7 @@ class WS2801{
    static rgbFrom(color){
       switch(color.length){
          case 1:
-            if(color[0] instanceof Array)
-               return WS2801.rgbFrom(color[0])
-            else
-               return colorLib(color[0]).array()
-            break
+            return (color[0] instanceof Array)?WS2801.rgbFrom(color[0]):colorLib(color[0]).array()
          case 3:
             return color
          default:
