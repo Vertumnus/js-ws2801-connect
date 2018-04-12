@@ -44,7 +44,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="WS2801"><span class="type-signature"></span>new WS2801<span class="signature">(count, spiWrite)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="WS2801"><span class="type-signature"></span>new WS2801<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
     
 
@@ -87,6 +87,48 @@
 
         <tr>
             
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">options for the led stripe representation
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
                 <td class="name"><code>count</code></td>
             
 
@@ -103,7 +145,7 @@
 
             
 
-            <td class="description last">number of the led lights on your stripe</td>
+            <td class="description last">Number of led lights on the stripe (must be greater 0)</td>
         </tr>
 
     
@@ -126,7 +168,38 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Callback for writing to the SPI</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rgbIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">[0] = index of red, [1] = index of green, [2] = index of blue;
+in the resulting data array for WS2801; default: [0] = 0, [1] = 1, [2] = 2; red first, green second, blue third</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -255,7 +328,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line53">line 53</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -317,7 +390,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line43">line 43</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -395,7 +468,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line172">line 172</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -564,7 +637,7 @@ or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x1
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line189">line 189</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -723,7 +796,7 @@ Superfluous are ignored.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line133">line 133</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -924,7 +997,7 @@ or a parameter list of three elments as red, green and blue like (..., 0xfe, 0x1
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line113">line 113</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -1034,7 +1107,7 @@ on your led stripe.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line161">line 161</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -1191,7 +1264,7 @@ representing red, green and blue</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line89">line 89</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -1376,7 +1449,7 @@ rgb([0xfe, 0x12, 0xa9])</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line199">line 199</a>
+        <a href="ws2801.js.html">ws2801.js</a>, <a href="ws2801.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -1422,7 +1495,7 @@ rgb([0xfe, 0x12, 0xa9])</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Sep 08 2017 19:25:06 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Apr 12 2018 02:28:08 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

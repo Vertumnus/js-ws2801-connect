@@ -27,10 +27,13 @@ var WS2801 = require("ws2801-connect")
 ```
 
 Create an instance providing the number of led lights and a callback function
-for the communication with the SPI.:
+for the communication with the SPI:
 ```js
 // 32 led lights, callback with SPI communication
-var leds = new WS2801(32, (data) => { spi.write(data) })
+var leds = new WS2801({ 
+   count: 32, 
+   spiWrite: (data) => { spi.write(data) }
+})
 ```
 > The callback gets an array as parameter containing the data to be sent to
 > the SPI and finally to the led stripe. 
@@ -79,7 +82,21 @@ leds.show()
 ```
 > __Consider:__ After you have changed your color configuration through
 > any of the above modifying methods, you have to call `show()` to send 
-> the new configuration to the led stripe.
+> the new configuration to the led stripe i.e. to call the callback function 
+> you specified at construction.
+
+### Change RGB order
+If your led stripe has another order as red, green, blue (mine have red, blue, green)
+you can specify on construction another option to define the RGB index:
+```js
+var leds = new WS2801({
+   count: 32, 
+   spiWrite: (data) => { spi.write(data) },
+   rgbIndex: [0,2,1]
+})
+```
+> In this example I used my configuration: first red, second blue, third green.
+> This has only an impact for the resulting data you will get at the callback function.
 
 ### Hint
 On specifying colors you can use any format, which the [color library](https://www.npmjs.com/package/color) 
@@ -110,7 +127,10 @@ var spi = new SoftSPI({
 spi.open()
 
 // the led stripe has 32 lights; supply callback as lambda
-var leds = new WS2801(32, (data) => { spi.write(data) })
+var leds = new WS2801({
+   count: 32, 
+   spiWrite: (data) => { spi.write(data) })
+})
 
 // first make all lights black
 leds.clear().show()
@@ -149,10 +169,13 @@ rpio.spiSetClockDivider(10)
 rpio.spiSetDataMode(0)
 
 // the led stripe has 32 lights; supply callback as lambda
-var leds = new WS2801(32, (data) => { 
-                              let buf = Buffer.from(data)
-                              rpio.spiWrite(buf, buf.length)
-                           })
+var leds = new WS2801({
+   count: 32, 
+   spiWrite: (data) => { 
+                           let buf = Buffer.from(data)
+                           rpio.spiWrite(buf, buf.length)
+                        }
+})
 
 // first make all lights black
 leds.clear().show()

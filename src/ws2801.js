@@ -13,13 +13,26 @@ var colorLib = require("color")
 class WS2801{
    /**
     * Creates the representation of the led stripe.
-    * @param {Number} count - number of the led lights on your stripe
-    * @param {WS2801~spiWrite} spiWrite
+    * @param {Object} options - options for the led stripe representation
+    * @param {Number} options.count - Number of led lights on the stripe (must be greater 0)
+    * @param {WS2801~spiWrite} options.spiWrite - Callback for writing to the SPI
+    * @param {Array} options.rgbIndex - [0] = index of red, [1] = index of green, [2] = index of blue;
+    * in the resulting data array for WS2801; default: [0] = 0, [1] = 1, [2] = 2; red first, green second, blue third
     * @returns {WS2801}
     */
-   constructor(count, spiWrite){
-      this.count = count
-      this.spiWrite = (typeof spiWrite === "function")?spiWrite:function(){}
+   constructor(options){
+      this.count = options.count
+      this.spiWrite = (typeof options.spiWrite === "function")?options.spiWrite:function(){}
+      if(Array.isArray(options.rgbIndex) && options.rgbIndex.length === 3){
+         WS2801.assert(options.rgbIndex.every(item => item >= 0 && item <= 2), "Wrong index supplied")
+         this.rgbIndex = options.rgbIndex
+      }
+      else
+         this.rgbIndex = [0,1,2]
+      this.rgbMap = Array(3)
+      this.rgbIndex.forEach(function(item, index){
+         this.rgbMap[item] = index
+      }, this)
    }
 
    /**
@@ -116,9 +129,12 @@ class WS2801{
       let r, g, b
       [r, g, b] = WS2801.rgbFrom(color)
       
-      this.rgbLights[3*number+0] = r & 0xff
-      this.rgbLights[3*number+1] = g & 0xff
-      this.rgbLights[3*number+2] = b & 0xff
+      // set red
+      this.rgbLights[3*number+this.rgbIndex[0]] = r & 0xff
+      // set green
+      this.rgbLights[3*number+this.rgbIndex[1]] = g & 0xff
+      // set blue
+      this.rgbLights[3*number+this.rgbIndex[2]] = b & 0xff
       
       return this
    }
@@ -149,7 +165,7 @@ class WS2801{
    *[Symbol.iterator]()
    {
       for(let n = 0, end = this.count; n < end; ++n)
-         yield [this.rgbLights[3*n+0],this.rgbLights[3*n+1],this.rgbLights[3*n+2]]
+         yield [this.rgbLights[3*n+this.rgbIndex[0]],this.rgbLights[3*n+this.rgbIndex[1]],this.rgbLights[3*n+this.rgbIndex[2]]]
    }
    
    /**
@@ -190,8 +206,8 @@ class WS2801{
    {
       let rgb = WS2801.rgbFrom(color)
       this.rgbLights.forEach(function(item, index, arr){
-         arr[index] = rgb[index % 3]
-      })
+         arr[index] = rgb[this.rgbMap[index % 3]]
+      }, this)
       return this
    }
 }

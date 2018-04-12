@@ -15,13 +15,36 @@ let spi = {
       } 
    }
 let count = 4
-let leds = new WS2801(count, (data) => { spi.write(data) })
+let leds = new WS2801({ 
+   count: count, 
+   spiWrite: (data) => { spi.write(data) }
+})
    
 describe("WS2801", function(){
    describe("#constructor", function(){
-      it("should work also without a callback", function(){
-         let ledsTest = new WS2801(count)
-         ledsTest.clear().show()
+      it("should throw an exception, when count is empty", function(){
+         assert.throws(() => { new WS2801() }, "count is empty")
+      })
+      it("should work without callback", function(){
+         let ledTest = new WS2801({ count: count })
+         ledTest.clear().show()
+      })
+      it("should throw an exception, when rgb index is supplied incorrect", function(){
+         assert.throws(() => { new WS2801({ rgbIndex: [1,2,3] }) },
+                        "rgb index is incorrect")
+      })
+      it("should handle rgb index", function(){
+         let ledTest = new WS2801({ 
+            count: count,
+            spiWrite: (data) => { spi.write(data) },
+            rgbIndex: [2,0,1] // red is on third pos, green on first and blue on second
+         })
+         ledTest.setLight(0, "#1398af")
+         let expected = [0x98, 0xaf, 0x13,
+                         0x00, 0x00, 0x00,
+                         0x00, 0x00, 0x00,
+                         0x00, 0x00, 0x00]
+         assert.deepEqual(ledTest.rgbLights, expected)
       })
    })
    describe("#count", function(){
