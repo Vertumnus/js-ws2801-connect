@@ -4,7 +4,6 @@
 
 /* global Symbol */
 
-var sleep = require("sleep")
 var colorLib = require("color")
 
 /**
@@ -177,7 +176,6 @@ class WS2801{
    show()
    {
       this.spiWrite(this.rgbLights)
-      sleep.usleep(600)
       return this
    }
    
